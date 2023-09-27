@@ -4,7 +4,7 @@ import databaseService from '~/services/database.services'
 import { defaultErrorHandler } from './middlewares/error.middlewares'
 import mediasRouter from './routes/medias.routes'
 import { initFolder } from './utils/file'
-import { UPLOAD_DIR } from './constants/dir'
+import { UPLOAD_IMAGE_DIR } from './constants/dir'
 import staticRouter from './routes/static.routes'
 databaseService.connect()
 const app = express()
@@ -19,7 +19,7 @@ app.use('/medias', mediasRouter)
 
 app.use('/static', staticRouter)
 
-// app.use('/static', express.static(UPLOAD_DIR))
+// app.use('/static', express.static(UPLOAD_IMAGE_DIR))
 
 app.use(defaultErrorHandler)
 app.listen(port, () => {
