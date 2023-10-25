@@ -11,12 +11,12 @@ import databaseService from '~/services/database.services'
 import { hashPassword } from '~/utils/crypto'
 
 // Mật khẩu cho các fake user
-const PASSWORD = 'Duoc123!'
+const PASSWORD = 'Hao123!'
 // ID của tài khoản của mình, dùng để follow người khác
-const MYID = new ObjectId('64ae518e12de778b00d04657')
+const MYID = new ObjectId('6530be869961b82e17fdf735')
 
 // Số lượng user được tạo, mỗi user sẽ mặc định tweet 2 cái
-const USER_COUNT = 100
+const USER_COUNT = 300
 
 const createRandomUser = () => {
   const user: RegisterReqBody = {
