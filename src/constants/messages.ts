@@ -96,5 +96,7 @@ export const LIKE_MESSAGES = {
 }
 
 export const SEARCH_MESSAGES = {
-  SEARCH_SUCCESSFULLY: 'Search successfully'
+  SEARCH_SUCCESSFULLY: 'Search successfully',
+  CONTENT_MUST_BE_STRING: 'Content must be string',
+  PEOPLE_FOLLOW_MUST_BE_0_OR_1: 'People follow must be 0 or 1'
 }
