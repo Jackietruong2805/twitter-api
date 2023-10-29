@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
+import { SEARCH_MESSAGES } from '~/constants/messages'
 import { SearchQuery } from '~/models/requests/Search.requests'
 import searchService from '~/services/search.services'
 
@@ -9,10 +10,16 @@ export const searchController = async (req: Request<ParamsDictionary, any, any, 
   const result = await searchService.search({
     limit,
     page,
-    content: req.query.content
+    content: req.query.content,
+    user_id: req.decoded_authorization?.user_id as string
   })
   return res.json({
-    message: 'Search Successfully',
-    result
+    message: SEARCH_MESSAGES.SEARCH_SUCCESSFULLY,
+    result: {
+      tweets: result.tweets,
+      limit,
+      page,
+      total_page: Math.ceil(result.total / limit)
+    }
   })
 }
