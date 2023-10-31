@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
-const { SendEmailCommand, SESClient } = require('@aws-sdk/client-ses')
-const { config } = require('dotenv')
+import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses'
+import { config } from 'dotenv'
 
 config()
 // Create SES service object.
 const sesClient = new SESClient({
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION as string,
   credentials: {
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID as string
   }
 })
 
@@ -20,6 +20,13 @@ const createSendEmailCommand = ({
   body,
   subject,
   replyToAddresses = []
+}: {
+  fromAddress: string
+  toAddresses: string | string[]
+  ccAddresses?: string | string[]
+  body: string
+  subject: string
+  replyToAddresses?: string | string[]
 }) => {
   return new SendEmailCommand({
     Destination: {
@@ -46,24 +53,13 @@ const createSendEmailCommand = ({
   })
 }
 
-const sendVerifyEmail = async (toAddress, subject, body) => {
+export const sendVerifyEmail = (toAddress: string, subject: string, body: string) => {
   const sendEmailCommand = createSendEmailCommand({
-    fromAddress: process.env.SES_FROM_ADDRESS,
+    fromAddress: process.env.SES_FROM_ADDRESS as string,
     toAddresses: toAddress,
     body,
     subject
   })
 
-  try {
-    return await sesClient.send(sendEmailCommand)
-  } catch (e) {
-    console.error('Failed to send email.')
-    return e
-  }
+  return sesClient.send(sendEmailCommand)
 }
-
-sendVerifyEmail(
-  'haotruong.31211027638@st.ueh.edu.vn',
-  'Tiêu đề email',
-  '<h1>Nội dung email được gửi từ truonghao2805@gmail.com ngày 30/10/2023</h1>'
-)
