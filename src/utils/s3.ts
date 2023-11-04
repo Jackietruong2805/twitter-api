@@ -3,6 +3,8 @@ import { S3 } from '@aws-sdk/client-s3'
 import { config } from 'dotenv'
 import fs from 'fs'
 import path from 'path'
+import HTTP_STATUS from '~/constants/httpStatus'
+import { Response } from 'express'
 config()
 const s3 = new S3({
   region: process.env.AWS_REGION,
@@ -11,8 +13,6 @@ const s3 = new S3({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID as string
   }
 })
-// D:\nodejs\Duthanhduoc\Twitter\uploads\images\temp\anh1.jpg
-const file = fs.readFileSync(path.resolve('uploads/images/temp/anh1.jpg'))
 
 export const uploadFileToS3 = ({
   filename,
@@ -26,7 +26,7 @@ export const uploadFileToS3 = ({
   const parallelUploads3 = new Upload({
     client: s3,
     params: {
-      Bucket: 'twitter-project-clone',
+      Bucket: process.env.S3_BUCKET_NAME as string,
       Key: filename,
       Body: fs.readFileSync(filepath),
       ContentType: contentType
@@ -41,4 +41,16 @@ export const uploadFileToS3 = ({
   })
 
   return parallelUploads3.done()
+}
+
+export const sendFileFromS3 = async (res: Response, filepath: string) => {
+  try {
+    const data = await s3.getObject({
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: filepath
+    })
+    ;(data.Body as any).pipe(res)
+  } catch (error) {
+    res.status(HTTP_STATUS.NOT_FOUND).send('Not Found')
+  }
 }
