@@ -1,4 +1,6 @@
 import express from 'express'
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 import usersRouter from './routes/users.routes'
 import databaseService from '~/services/database.services'
 import { defaultErrorHandler } from './middlewares/error.middlewares'
@@ -20,7 +22,9 @@ databaseService.connect().then(() => {
   databaseService.indexFollowers()
   databaseService.indexTweets()
 })
+
 const app = express()
+const httpServer = createServer(app)
 app.use(cors())
 const port = process.env.PORT || 4000
 
@@ -38,6 +42,18 @@ app.use('/static', staticRouter)
 app.use('/static/video', express.static(UPLOAD_VIDEO_DIR))
 
 app.use(defaultErrorHandler)
-app.listen(port, () => {
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:3000'
+  }
+})
+io.on('connection', (socket) => {
+  console.log(`User ${socket.id} is connected`)
+  socket.on('disconnect', () => {
+    console.log(`User ${socket.id} is disconnected`)
+  })
+})
+httpServer.listen(port, () => {
   console.log(`${port}`)
 })
