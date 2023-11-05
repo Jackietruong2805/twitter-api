@@ -53,6 +53,9 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log(`User ${socket.id} is disconnected`)
   })
+  socket.emit('hi', {
+    message: `User ${socket.id} is connected`
+  })
 })
 httpServer.listen(port, () => {
   console.log(`${port}`)
