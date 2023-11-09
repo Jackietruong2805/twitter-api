@@ -14,6 +14,7 @@ import bookmarksRouter from './routes/bookmarks.routes'
 import likesRouter from './routes/likes.routes'
 import searchRouter from './routes/search.routes'
 import './utils/s3'
+import Conversation from './models/schemas/Conversations.schema'
 
 databaseService.connect().then(() => {
   databaseService.indexUsers()
@@ -59,11 +60,18 @@ io.on('connection', (socket) => {
   users[user_id] = {
     socket_id: socket.id
   }
-  socket.on('private message', (data) => {
+  socket.on('private message', async (data) => {
     const receiver_socket_id = users[data.to]?.socket_id
     if (!receiver_socket_id) {
       return
     }
+    await databaseService.conversations.insertOne(
+      new Conversation({
+        sender_id: data.from,
+        receiver_id: data.to,
+        content: data.content
+      })
+    )
     socket.to(receiver_socket_id).emit('receive private message', {
       content: data.content,
       from: user_id
