@@ -1,8 +1,9 @@
 {
   "watch": [
-    "src"
+    "src",
+    "openapi"
   ],
-  "ext": ".ts,.js",
+  "ext": ".ts,.js,.yaml",
   "ignore": [],
   "exec": "npx ts-node -T ./src/index.ts"
 }

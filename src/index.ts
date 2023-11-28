@@ -15,6 +15,22 @@ import searchRouter from './routes/search.routes'
 import './utils/s3'
 import conversationsRouter from './routes/conversations.routes'
 import initSocket from './utils/socket'
+import swaggerUi from 'swagger-ui-express'
+import swaggerJsdoc from 'swagger-jsdoc'
+
+const options: swaggerJsdoc.Options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'X clone (Twitter API)',
+      version: '1.0.0'
+    }
+  },
+
+  apis: ['./openapi/*.yaml'] // files containing annotations as above
+}
+
+const openapiSpecification = swaggerJsdoc(options)
 
 databaseService.connect().then(() => {
   databaseService.indexUsers()
@@ -33,6 +49,7 @@ const port = process.env.PORT || 4000
 initFolder()
 
 app.use(express.json())
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification))
 app.use('/users', usersRouter)
 app.use('/medias', mediasRouter)
 app.use('/tweets', tweetsRouter)

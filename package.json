@@ -22,6 +22,8 @@
     "@types/lodash": "^4.14.195",
     "@types/mime": "^3.0.2",
     "@types/node": "^20.2.5",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^5.59.9",
     "eslint": "^8.42.0",
@@ -57,7 +59,10 @@
     "nanoid": "^4.0.2",
     "npm": "^10.2.1",
     "sharp": "^0.32.6",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "yaml": "^2.3.4"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8",
