@@ -17,6 +17,7 @@ import conversationsRouter from './routes/conversations.routes'
 import initSocket from './utils/socket'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJsdoc from 'swagger-jsdoc'
+import { envConfig } from './constants/config'
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -42,8 +43,8 @@ databaseService.connect().then(() => {
 
 const app = express()
 const httpServer = createServer(app)
+const port = envConfig.port
 app.use(cors())
-const port = process.env.PORT || 4000
 
 // create upload folder
 initFolder()
