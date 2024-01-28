@@ -1,0 +1,8 @@
+version: '3'
+services:
+  twitter:
+    image: hao/nodejs:v0
+    ports:
+      - '4000:4000'
+    volumes:
+      - '/d/nodejs/Duthanhduoc/Twitter:/app/uploads'
