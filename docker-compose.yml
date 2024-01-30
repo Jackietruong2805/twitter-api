@@ -1,7 +1,7 @@
 version: '3'
 services:
   twitter:
-    image: hao/nodejs:v0
+    image: truonghaogia/twitter:v3
     ports:
       - '4000:4000'
     volumes:
