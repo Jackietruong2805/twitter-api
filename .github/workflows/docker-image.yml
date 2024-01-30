@@ -15,8 +15,8 @@ jobs:
       - name: 'Create env file'
         run: echo "${{ secrets.TWITTER_ENV_PRODUCTION}}" > .env.production
       - name: Build docker Image
-        run: docker build --progress=plain -t truonghaogia/twitter:v2 .
+        run: docker build --progress=plain -t truonghaogia/twitter:v3 .
       - name: Log in to Docker Hub
         run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_PASSWORD}}
       - name: Push the Docker Image
-        run: docker push truonghaogia/twitter:v2
+        run: docker push truonghaogia/twitter:v3
