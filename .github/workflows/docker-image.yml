@@ -37,4 +37,4 @@ jobs:
             docker pull truonghaogia/twitter:v3
             docker stop twitter-clone
             docker rm twitter-clone
-            docker run -dp 3000:3000 --name twitter-clone truonghaogia/twitter:v3
+            docker run -dp 3000:3000 --name twitter-clone --restart unless-stopped truonghaogia/twitter:v3
